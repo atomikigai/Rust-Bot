@@ -5,4 +5,4 @@ La lista de comandos que puedes utilizar con el bot
 ```
 /getprice btc
 ```
-https://raw.githubusercontent.com/ichiroDaiki/Rust-Bot/images/im.png
+https://raw.githubusercontent.com/ichiroDaiki/Rust-Bot/main/images/im.png
