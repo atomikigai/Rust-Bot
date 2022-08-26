@@ -18,7 +18,7 @@ async fn main() {
     .expect("PORT env variable is not set")
     .parse()
     .expect("PORT env variable value is not an integer");
-    
+
     let addr = ([0,0,0,0], port).into();
     let host = env::var("HOST").expect("HOST variable is not set");
     let url = Url::parse(&format!("https://{host}/webhooks/{token}")).unwrap();
@@ -27,15 +27,14 @@ async fn main() {
     .await
     .expect("Couldn't setup webhook");
 
-    teloxide::repl_with_listener(
+    teloxide::commands_repl_with_listener(
         bot,
-        |msg: Message, bot: AutoSend<Bot>| async move {
-            bot.send_message(msg.chat.id, "Bot").await?;
-            respond(())
-        },
+        answer,
         listener,
+        Command::ty(),
     )
     .await;
+
 }
 
 #[derive(BotCommands, Clone)]
