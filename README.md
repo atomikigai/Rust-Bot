@@ -1,6 +1,7 @@
 # Rust-Bot
-Un bot para telegram creado puramente con Rust, actualmente se puede consultar los primeros 100 pares de criptomonedas
+Un bot para telegram creado puramente con Rust, actualmente se puede consultar los primeros 100 pares de criptomonedas.
 ### Comandos
+La lista de comandos que puedes utilizar con el bot
 ```
 /getprice btc
 ```
