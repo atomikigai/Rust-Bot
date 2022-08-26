@@ -18,11 +18,13 @@ async fn main() {
     .expect("PORT env variable is not set")
     .parse()
     .expect("PORT env variable value is not an integer");
-    
+
     let addr = ([0,0,0,0], port).into();
     let host = env::var("HOST").expect("HOST variable is not set");
+    println!("Token: {}", token);
+    println!("Host: {}", host);
     let url = Url::parse(&format!("https://{host}/webhooks/{token}")).unwrap();
-    
+    println!("URL: {}", url);
     let listener = webhooks::axum(bot.clone(), webhooks::Options::new(addr, url))
     .await
     .expect("Couldn't setup webhook");
