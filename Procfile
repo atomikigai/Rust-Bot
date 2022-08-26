@@ -1,0 +1,2 @@
+release: export TELOXIDE_TOKEN=5791978136:AAFDHTusu9D2FUSKKZLS7vNkryJIV1srvjs
+worker: cargo run
