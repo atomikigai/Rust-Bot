@@ -37,7 +37,12 @@ impl std::fmt::Display for Quote{
 
 impl std::fmt::Display for Volume{
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let num: f64 = self.volume_change_24h.parse().unwrap();
+        let mut num:f64 = 0.0;
+        if self.volume_change_24h.is_empty(){
+            num = 0.0;
+        }else{
+            num = self.volume_change_24h.parse().unwrap();
+        }
         let is_positive = if num < 0.0 {
             false
         }else{
