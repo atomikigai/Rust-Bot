@@ -1,15 +1,40 @@
-use teloxide::{prelude::*, utils::command::{BotCommands}};
+use std::env;
+use teloxide::{prelude::*, dispatching::update_listeners::webhooks, utils::command::{BotCommands}};
 use std::{error::Error};
 mod crypto_currencies;
 use crypto_currencies::{coin_data::CoinData};
 use crypto_currencies::coin_struct::Coin;
+use url::Url;
 
 
 #[tokio::main]
 async fn main() {
     pretty_env_logger::init();
+    log::info!("Starting Bot");
     let bot = Bot::from_env().auto_send();
-    teloxide::commands_repl(bot, answer, Command::ty()).await;
+    let token = bot.inner().token();
+
+    let port: u16 = env::var("PORT")
+    .expect("PORT env variable is not set")
+    .parse()
+    .expect("PORT env variable value is not an integer");
+    let addr = ([0,0,0,0], port).into();
+    let host = env::var("HOST").expect("HOST variable is not set");
+    let url = Url::parse(&format!("https://{host}/webhooks/{token}")).unwrap();
+    
+    let listener = webhooks::axum(bot.clone(), webhooks::Options::new(addr, url))
+    .await
+    .expect("Couldn't setup webhook");
+
+    teloxide::repl_with_listener(
+        bot,
+        |msg: Message, bot: AutoSend<Bot>| async move {
+            bot.send_message(msg.chat.id, "Bot").await?;
+            respond(())
+        },
+        listener,
+    )
+    .await;
 }
 
 #[derive(BotCommands, Clone)]
