@@ -26,16 +26,6 @@ async fn main() {
     .await
     .expect("Couldn't setup webhook");
 
-/*     teloxide::repl_with_listener(
-        bot,
-        |msg: Message, bot: AutoSend<Bot>| async move {
-            bot.send_message(msg.chat.id, "Bot").await?;
-            respond(())
-        },
-        listener,
-    )
-    .await;
- */
     teloxide::commands_repl_with_listener(
         bot,
         answer,
